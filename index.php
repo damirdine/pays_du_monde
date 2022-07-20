@@ -22,22 +22,30 @@ $regionPrep->execute() or die(print_r($db->errorInfo()));
 $regions = $regionPrep->fetchAll();
 
 
-if($_GET){
+if(isset($_GET["continent"],$_GET["region"])){
     var_dump($_GET);
-    $SqlREquest = "SELECT * 
-        FROM t_pays p 
-        INNER JOIN t_continents C ON p.continent_id  = C.id_continent
-        WHERE C.id_continent = " . (int)$_GET["continent"];
+    if($_GET["region"]==""){
+        $SqlREquest = "SELECT * 
+            FROM t_pays p
+            WHERE p.continent_id = " . (int)$_GET["continent"];
+    }else{
+        $SqlREquest = "SELECT * 
+        FROM t_pays p
+        WHERE p.continent_id = " . (int)$_GET["continent"] . " AND p.region_id = " .(int)$_GET["region"]; 
+    }
     $statsPrep = $db -> prepare($SqlREquest);
     $statsPrep->execute() or die(print_r($db->errorInfo()));
     $stats = $statsPrep->fetchAll();
 
     $continentID = $_GET["continent"];
 }
-
-var_dump($continentID)
+if(isset($_GET["region"],$_GET["continent"])&& $_GET["continent"]!=""){
+    $regionRequest = "SELECT * FROM t_regions r WHERE r.continent_id =" .$_GET["continent"];
+    $regionPrep = $db -> prepare($regionRequest);
+    $regionPrep->execute() or die(print_r($db->errorInfo()));
+    $regions = $regionPrep->fetchAll();
+}
 ?>
-
 
 <form action="http://localhost/Sakila/" method="GET">
     <select name="continent" id="continent" value="<?=$continentID?>" onchange="this.form.submit()">
@@ -46,7 +54,8 @@ var_dump($continentID)
         <option value=<?= $continent["id_continent"]?>><?= $continent["libelle_continent"]?></option>
     <?php endforeach ?>
     </select> 
-    <select name="regions" id="continent" onchange="this.form.submit()">
+    <select name="region" id="continent" onchange="this.form.submit()">
+    <option value="">Choisis></option>
     <?php foreach ($regions as $region) : ?>
         <option value=<?= $region["id_region"]?>><?= $region["libelle_region"]?></option>
     <?php endforeach ?>
