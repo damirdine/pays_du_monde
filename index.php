@@ -58,14 +58,17 @@ if(isset($_GET["region"],$_GET["continent"])&& $_GET["continent"]!=""){
         <?php endif ?>
     <?php endforeach ?>
     </select>  
-    <select name="region" id="continent" onchange="this.form.submit()">
+    <select name="region" id="region" onchange="this.form.submit()">
     <option value="">Choisir une region></option>
     <?php foreach ($regions as $region) : ?>
-        <option value=<?= $region["id_region"]?>><?= $region["libelle_region"]?></option>
+        <?php if(isset($_GET["region"]) && $_GET["region"]==$region["id_region"]) :?>
+            <option value=<?= $region["id_region"]?> selected><?= $region["libelle_region"]?></option>
+        <?php else:?>
+            <option value=<?= $region["id_region"]?>><?= $region["libelle_region"]?></option>
+        <?php endif ?>
     <?php endforeach ?>
     </select>
 </form>
-
 
 <table class="table">
     <thead>
