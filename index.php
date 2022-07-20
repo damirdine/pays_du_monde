@@ -2,28 +2,33 @@
 include "db.php";
 include "script.php";
 
-$SqlREquest = "SELECT * FROM t_continents 
-    INNER JOIN t_pays ON (t_pays.continent_id=t_continents.id_continent) 
-    GROUP BY libelle_continent";
-$statsPrep = $db -> prepare($SqlREquest);
-$statsPrep->execute() or die(print_r($db->errorInfo()));
-$stats = $statsPrep->fetchAll();
-echo("<pre>");
-//var_dump($stats);
+// REQUETTE RECUP TOUT STATS PAR PAYS
+
+// $SqlREquest = "SELECT * FROM t_continents 
+//     INNER JOIN t_pays ON (t_pays.continent_id=t_continents.id_continent) 
+//     GROUP BY libelle_continent";
+// $statsPrep = $db -> prepare($SqlREquest);
+// $statsPrep->execute() or die(print_r($db->errorInfo()));
+// $stats = $statsPrep->fetchAll();
+
+// REQUETTE RECUP TOUT LES CONTINENT
 
 $ContinentRequest = "SELECT * FROM t_continents";
-$ContinentPrep = $db -> prepare($ContinentRequest);
-$ContinentPrep->execute() or die(print_r($db->errorInfo()));
+// ------ ANCIEN OPTION -----
+// $ContinentPrep = $db -> prepare($ContinentRequest);
+// $ContinentPrep->execute() or die(print_r($db->errorInfo()));
+// ------ NOUVELLE OPTION -----
+$ContinentPrep = $db->query($ContinentRequest);
 $continents = $ContinentPrep->fetchAll();
 
+
+// REQUETTE RECUP TOUT LES REGIONS
 $regionRequest = "SELECT * FROM t_regions";
-$regionPrep = $db -> prepare($regionRequest);
-$regionPrep->execute() or die(print_r($db->errorInfo()));
+$regionPrep = $db -> query($regionRequest);
 $regions = $regionPrep->fetchAll();
 
 
 if(isset($_GET["continent"],$_GET["region"])){
-    var_dump($_GET);
     if($_GET["region"]==""){
         $SqlREquest = "SELECT * 
             FROM t_pays p
@@ -33,16 +38,14 @@ if(isset($_GET["continent"],$_GET["region"])){
         FROM t_pays p
         WHERE p.continent_id = " . (int)$_GET["continent"] . " AND p.region_id = " .(int)$_GET["region"]; 
     }
-    $statsPrep = $db -> prepare($SqlREquest);
-    $statsPrep->execute() or die(print_r($db->errorInfo()));
+    $statsPrep = $db -> query($SqlREquest);
     $stats = $statsPrep->fetchAll();
 
     $continentID = $_GET["continent"];
 }
 if(isset($_GET["region"],$_GET["continent"])&& $_GET["continent"]!=""){
     $regionRequest = "SELECT * FROM t_regions r WHERE r.continent_id =" .$_GET["continent"];
-    $regionPrep = $db -> prepare($regionRequest);
-    $regionPrep->execute() or die(print_r($db->errorInfo()));
+    $regionPrep = $db -> query($regionRequest);
     $regions = $regionPrep->fetchAll();
 }
 ?>
@@ -85,18 +88,22 @@ if(isset($_GET["region"],$_GET["continent"])&& $_GET["continent"]!=""){
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($stats as $pays) : ?>
-        <tr>
-            <td><?= $pays['libelle_pays'] ?></td>
-            <td><?= $pays['population_pays'] ?></td>
-            <td><?= $pays['taux_natalite_pays'] ?></td>
-            <td><?= $pays['taux_mortalite_pays'] ?></td>
-            <td><?= $pays['esperance_vie_pays'] ?></td>
-            <td><?= $pays['taux_mortalite_infantile_pays'] ?></td>
-            <td><?= $pays['nombre_enfants_par_femme_pays'] ?></td>
-            <td><?= $pays['taux_croissance_pays'] ?></td>
-            <td><?= $pays['population_plus_65_pays'] ?></td>
-        <tr>
-        <?php endforeach ?>
+        <?php if(isset($stats)):?>
+            <?php foreach ($stats as $pays) : ?>
+                <tr>
+                    <td><?= $pays['libelle_pays'] ?></td>
+                    <td><?= $pays['population_pays'] ?></td>
+                    <td><?= $pays['taux_natalite_pays'] ?></td>
+                    <td><?= $pays['taux_mortalite_pays'] ?></td>
+                    <td><?= $pays['esperance_vie_pays'] ?></td>
+                    <td><?= $pays['taux_mortalite_infantile_pays'] ?></td>
+                    <td><?= $pays['nombre_enfants_par_femme_pays'] ?></td>
+                    <td><?= $pays['taux_croissance_pays'] ?></td>
+                    <td><?= $pays['population_plus_65_pays'] ?></td>
+                <tr>
+            <?php endforeach ?>
+        <?php else:?>
+            <tr><td colspan="5">No data available in table</td></tr>
+        <?php endif ?>
     </tbody>
 </table>
