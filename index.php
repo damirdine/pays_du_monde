@@ -48,9 +48,9 @@ $continents = $ContinentPrep->fetchAll();
             <th scope="col">Population de 65 ans et plus (en milliers)</th>
         </tr>
     </thead>
-<?php foreach ($stats as $pays) : ?>
     <tbody>
         <tr>
+            <?php foreach ($stats as $pays) : ?>
             <td><?= $pays['libelle_pays'] ?></td>
             <td><?= $pays['population_pays'] ?></td>
             <td><?= $pays['taux_natalite_pays'] ?></td>
