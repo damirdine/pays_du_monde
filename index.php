@@ -25,22 +25,24 @@ $regions = $regionPrep->fetchAll();
 if($_GET){
     var_dump($_GET);
     $SqlREquest = "SELECT * 
-    FROM t_pays p 
-    INNER JOIN t_regions r on p.region_id = r.id_region
-    INNER JOIN t_continents C ON r.id_region = C.id_continent
-    WHERE C.id_continent = " .$_GET["continent"];
+        FROM t_pays p 
+        INNER JOIN t_continents C ON p.continent_id  = C.id_continent
+        WHERE C.id_continent = " . (int)$_GET["continent"];
     $statsPrep = $db -> prepare($SqlREquest);
     $statsPrep->execute() or die(print_r($db->errorInfo()));
     $stats = $statsPrep->fetchAll();
+
+    $continentID = $_GET["continent"];
 }
 
-//var_dump($regions)
+var_dump($continentID)
 ?>
 
 
 <form action="http://localhost/Sakila/" method="GET">
-    <select name="continent" id="continent" onchange="this.form.submit()">
+    <select name="continent" id="continent" value="<?=$continentID?>" onchange="this.form.submit()">
     <?php foreach ($continents as $continent) : ?>
+      
         <option value=<?= $continent["id_continent"]?>><?= $continent["libelle_continent"]?></option>
     <?php endforeach ?>
     </select> 
