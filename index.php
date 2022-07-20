@@ -2,15 +2,6 @@
 include "db.php";
 include "script.php";
 
-// REQUETTE RECUP TOUT STATS PAR PAYS
-
-// $SqlREquest = "SELECT * FROM t_continents 
-//     INNER JOIN t_pays ON (t_pays.continent_id=t_continents.id_continent) 
-//     GROUP BY libelle_continent";
-// $statsPrep = $db -> prepare($SqlREquest);
-// $statsPrep->execute() or die(print_r($db->errorInfo()));
-// $stats = $statsPrep->fetchAll();
-
 // REQUETTE RECUP TOUT LES CONTINENT
 
 $ContinentRequest = "SELECT * FROM t_continents";
@@ -26,7 +17,6 @@ $continents = $ContinentPrep->fetchAll();
 $regionRequest = "SELECT * FROM t_regions";
 $regionPrep = $db -> query($regionRequest);
 $regions = $regionPrep->fetchAll();
-
 
 if(isset($_GET["continent"],$_GET["region"])){
     if($_GET["region"]==""){
@@ -103,7 +93,7 @@ if(isset($_GET["region"],$_GET["continent"])&& $_GET["continent"]!=""){
                 <tr>
             <?php endforeach ?>
         <?php else:?>
-            <tr><td colspan="5">No data available in table</td></tr>
+            <tr><td colspan="15">No data available in table</td></tr>
         <?php endif ?>
     </tbody>
 </table>
