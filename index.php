@@ -16,7 +16,24 @@ $ContinentPrep = $db -> prepare($ContinentRequest);
 $ContinentPrep->execute() or die(print_r($db->errorInfo()));
 $continents = $ContinentPrep->fetchAll();
 
-//var_dump($_GET)
+$ContinentRequest = "SELECT * FROM t_continents";
+$ContinentPrep = $db -> prepare($ContinentRequest);
+$ContinentPrep->execute() or die(print_r($db->errorInfo()));
+$continents = $ContinentPrep->fetchAll();
+
+
+if($_GET){
+    var_dump($_GET);
+    $SqlREquest = "SELECT * 
+    FROM t_pays p 
+    INNER JOIN t_regions r on p.region_id = r.id_region
+    INNER JOIN t_continents C ON r.id_region = C.id_continent
+    WHERE C.id_continent = " .$_GET["continent"];
+    $statsPrep = $db -> prepare($SqlREquest);
+    $statsPrep->execute() or die(print_r($db->errorInfo()));
+    $stats = $statsPrep->fetchAll();
+}
+var_dump($continents)
 ?>
 
 
@@ -49,8 +66,8 @@ $continents = $ContinentPrep->fetchAll();
         </tr>
     </thead>
     <tbody>
+        <?php foreach ($stats as $pays) : ?>
         <tr>
-            <?php foreach ($stats as $pays) : ?>
             <td><?= $pays['libelle_pays'] ?></td>
             <td><?= $pays['population_pays'] ?></td>
             <td><?= $pays['taux_natalite_pays'] ?></td>
@@ -60,6 +77,7 @@ $continents = $ContinentPrep->fetchAll();
             <td><?= $pays['nombre_enfants_par_femme_pays'] ?></td>
             <td><?= $pays['taux_croissance_pays'] ?></td>
             <td><?= $pays['population_plus_65_pays'] ?></td>
+        <tr>
         <?php endforeach ?>
     </tbody>
 </table>
