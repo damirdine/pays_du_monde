@@ -16,10 +16,10 @@ $ContinentPrep = $db -> prepare($ContinentRequest);
 $ContinentPrep->execute() or die(print_r($db->errorInfo()));
 $continents = $ContinentPrep->fetchAll();
 
-$ContinentRequest = "SELECT * FROM t_continents";
-$ContinentPrep = $db -> prepare($ContinentRequest);
-$ContinentPrep->execute() or die(print_r($db->errorInfo()));
-$continents = $ContinentPrep->fetchAll();
+$regionRequest = "SELECT * FROM t_regions";
+$regionPrep = $db -> prepare($regionRequest);
+$regionPrep->execute() or die(print_r($db->errorInfo()));
+$regions = $regionPrep->fetchAll();
 
 
 if($_GET){
@@ -33,7 +33,8 @@ if($_GET){
     $statsPrep->execute() or die(print_r($db->errorInfo()));
     $stats = $statsPrep->fetchAll();
 }
-var_dump($continents)
+
+//var_dump($regions)
 ?>
 
 
@@ -44,8 +45,8 @@ var_dump($continents)
     <?php endforeach ?>
     </select> 
     <select name="regions" id="continent" onchange="this.form.submit()">
-    <?php foreach ($continents as $continent) : ?>
-        <option value=<?= $continent["id_continent"]?>><?= $continent["libelle_continent"]?></option>
+    <?php foreach ($regions as $region) : ?>
+        <option value=<?= $region["id_region"]?>><?= $region["libelle_region"]?></option>
     <?php endforeach ?>
     </select>
 </form>
