@@ -49,13 +49,17 @@ if(isset($_GET["region"],$_GET["continent"])&& $_GET["continent"]!=""){
 
 <form action="http://localhost/Sakila/" method="GET">
     <select name="continent" id="continent" value="<?=$continentID?>" onchange="this.form.submit()">
+    <option value="">Choisir un Continent></option>
     <?php foreach ($continents as $continent) : ?>
-      
-        <option value=<?= $continent["id_continent"]?>><?= $continent["libelle_continent"]?></option>
+        <?php if(isset($_GET["continent"]) && $_GET["continent"]==$continent["id_continent"]) :?>
+            <option value=<?= $continent["id_continent"]?> selected><?= $continent["libelle_continent"]?></option>
+        <?php else:?>
+            <option value=<?= $continent["id_continent"]?>><?= $continent["libelle_continent"]?></option>
+        <?php endif ?>
     <?php endforeach ?>
-    </select> 
+    </select>  
     <select name="region" id="continent" onchange="this.form.submit()">
-    <option value="">Choisis></option>
+    <option value="">Choisir une region></option>
     <?php foreach ($regions as $region) : ?>
         <option value=<?= $region["id_region"]?>><?= $region["libelle_region"]?></option>
     <?php endforeach ?>
