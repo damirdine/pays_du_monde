@@ -1,9 +1,9 @@
 <?php
 
 $DB_HOST = 'localhost';
-$DB_NAME = 'pays';
-$DB_USER = 'root';
-$DB_PASSWORD = "";
+$DB_NAME = 'heroku_ea42f01145b143e';
+$DB_USER = 'b4449a6075ffac';
+$DB_PASSWORD = "a7c5bffa ";
 
 try{
     $db = new PDO(
