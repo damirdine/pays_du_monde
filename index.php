@@ -1,6 +1,6 @@
 <?php
-include "db.php";
-include "script.php";
+require "db.php";
+require "script.php";
 
 // REQUETTE RECUP TOUT LES CONTINENT
 
