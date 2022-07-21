@@ -1,9 +1,8 @@
 <?php
-
-$DB_HOST = 'localhost';
+$DB_HOST = 'nuepp3ddzwtnggom.chr7pe7iynqr.eu-west-1.rds.amazonaws.com';
 $DB_NAME = 'heroku_ea42f01145b143e';
 $DB_USER = 'b4449a6075ffac';
-$DB_PASSWORD = "a7c5bffa ";
+$DB_PASSWORD = "f5b7595d42919a2";
 
 try{
     $db = new PDO(
@@ -15,3 +14,4 @@ try{
 }catch(Exception $e){
     die('Erreur : '.$e->getMessage());
 }
+?>
