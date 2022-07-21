@@ -6,12 +6,7 @@ $DB_USER = 'tvcrlbttfs9fojc1';
 $DB_PASSWORD = "zxnzupbjjgz58f1m";
 
 try{
-    $db = new PDO(
-        "mysql:host=$DB_HOST;dbname=$DB_NAME;charset=utf8",
-        "$DB_USER",
-        "$DB_PASSWORD",
-        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION],
-    );
+    $db = new PDO($_ENV['JAWSDB_URL']);
 }catch(Exception $e){
     die('Erreur : '.$e->getMessage());
 }
