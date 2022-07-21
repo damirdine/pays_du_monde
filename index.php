@@ -22,11 +22,11 @@ if(isset($_GET["continent"],$_GET["region"])){
     if($_GET["region"]==""){
         $SqlREquest = "SELECT * 
             FROM t_pays p
-            WHERE p.continent_id = " . (int)$_GET["continent"];
+            WHERE p.continent_id = " . $_GET["continent"];
     }else{
         $SqlREquest = "SELECT * 
         FROM t_pays p
-        WHERE p.continent_id = " . (int)$_GET["continent"] . " AND p.region_id = " .(int)$_GET["region"]; 
+        WHERE p.continent_id = " . $_GET["continent"] . " AND p.region_id = " .(int)$_GET["region"]; 
     }
     $statsPrep = $db -> query($SqlREquest);
     $stats = $statsPrep->fetchAll();
@@ -39,6 +39,8 @@ if(isset($_GET["region"],$_GET["continent"])&& $_GET["continent"]!=""){
     $regions = $regionPrep->fetchAll();
 }
 ?>
+
+<h1>Les pays du mondes</h1>
 
 <form action="http://localhost/Sakila/" method="GET">
     <select name="continent" id="continent" value="<?=$continentID?>" onchange="this.form.submit()">
@@ -62,6 +64,22 @@ if(isset($_GET["region"],$_GET["continent"])&& $_GET["continent"]!=""){
     <?php endforeach ?>
     </select>
 </form>
+
+<section>
+    <div class="item-filter">
+        Show
+        <select name="item-number" id="item-number">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+    </div>
+    <div class="search">
+        <label for="search">Search:</label>
+        <input type="text" name="search" id="search">
+    </div>
+</section>
 
 <table class="table">
     <thead>
@@ -95,5 +113,11 @@ if(isset($_GET["region"],$_GET["continent"])&& $_GET["continent"]!=""){
         <?php else:?>
             <tr><td colspan="15">No data available in table</td></tr>
         <?php endif ?>
-    </tbody>
+    </tbody>  
 </table>
+<div>
+    <?=count($stats)?> Pays
+</div>
+<script>
+    
+</script>
