@@ -12,7 +12,6 @@ $ContinentRequest = "SELECT * FROM t_continents";
 $ContinentPrep = $db->query($ContinentRequest);
 $continents = $ContinentPrep->fetchAll();
 
-
 // REQUETTE RECUP TOUT LES REGIONS
 $regionRequest = "SELECT * FROM t_regions";
 $regionPrep = $db->query($regionRequest);
@@ -39,9 +38,7 @@ if (isset($_GET["region"], $_GET["continent"]) && $_GET["continent"] != "") {
     $regions = $regionPrep->fetchAll();
 }
 ?>
-
 <h1>Les pays du mondes</h1>
-
 <form action="http://localhost/Sakila/" method="GET">
     <select name="continent" id="continent" value="<?= $continentID ?>" onchange="this.form.submit()">
         <option value="">Choisir un Continent></option>
@@ -64,51 +61,7 @@ if (isset($_GET["region"], $_GET["continent"]) && $_GET["continent"] != "") {
         <?php endforeach ?>
     </select>
 </form>
-
 <table id="example" class="display" style="width:100%">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($stats as $pays) : ?>
-            <tr>
-                <td><?= $pays['libelle_pays'] ?> </td>
-                <td><?= $pays['population_pays'] ?></td>
-                <td><?= $pays['taux_natalite_pays'] ?></td>
-                <td><?= $pays['taux_mortalite_pays'] ?></td>
-                <td><?= $pays['esperance_vie_pays'] ?></td>
-                <td><?= $pays['taux_mortalite_infantile_pays'] ?></td>
-            </tr>
-        <?php endforeach ?>
-            <tr>
-                <td>Donna Snider</td>
-                <td>Customer Support</td>
-                <td>New York</td>
-                <td>27</td>
-                <td>2011-01-25</td>
-                <td>$112,000</td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
-            </tr>
-        </tfoot>
-    </table>
-
-<!-- <table id="example" class="display" style="width:100%">
     <thead>
         <tr>
             <th>Pays</th>
@@ -135,25 +88,13 @@ if (isset($_GET["region"], $_GET["continent"]) && $_GET["continent"] != "") {
                     <td><?= $pays['nombre_enfants_par_femme_pays'] ?></td>
                     <td><?= $pays['taux_croissance_pays'] ?></td>
                     <td><?= $pays['population_plus_65_pays'] ?></td>
-                <tr>
-                <?php endforeach ?>
-            <?php else : ?>
-            <?php endif ?>
+                </tr>
+            <?php endforeach ?>
+        <?php else : ?>
+            <tr><td>No data available in table</td></tr>
+        <?php endif ?>
     </tbody>
-    <tfoot>
-        <tr>
-            <th>Pays</th>
-            <th>Population totale (en milliers)</th>
-            <th>Taux de natalité</th>
-            <th>Taux de mortalité</th>
-            <th>Espérance de vie</th>
-            <th>Taux de mortalité infantile</th>
-            <th>Nombre d'enfant(s) par femme</th>
-            <th>Taux de croissance</th>
-            <th>Population de 65 ans et plus (en milliers)</th>
-        </tr>
-    </tfoot>
-</table> -->
+</table>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script src="script.js"></script>
