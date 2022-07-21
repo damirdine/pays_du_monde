@@ -1,5 +1,6 @@
 <?php
 require "db.php";
+require "app.php";
 // REQUETTE RECUP TOUT LES CONTINENT
 ?>
 <!DOCTYPE html>
