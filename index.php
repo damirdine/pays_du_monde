@@ -16,7 +16,7 @@ require "app.php";
 
 <body>
     <h1>Les pays du mondes</h1>
-    <form action="http://localhost/Sakila/" method="GET">
+    <form method="GET">
         <select name="continent" id="continent" value="<?= $continentID ?>" onchange="this.form.submit()">
             <option value="">Choisir un Continent></option>
             <?php foreach ($continents as $continent) : ?>
